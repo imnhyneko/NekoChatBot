@@ -9,12 +9,19 @@ Xin chào mọi người! 👋 Mình là **NekoChatBot**, một bot Discord siê
 -   **Hỗ trợ lập trình:** Mình có thể nhận diện các đoạn code và tạo Gist để giúp bạn xem code dễ dàng hơn! 💻
 -   **Nhớ bối cảnh:** Mình có thể nhớ những gì bạn đã nói trước đó, giúp cuộc trò chuyện trở nên tự nhiên hơn! 🧠
 -   **Log hoạt động:** Mình có một file log để ghi lại mọi thứ mình làm, giúp bạn theo dõi mình tốt hơn (và cũng để mình biết mình đang làm gì nữa hehe) 📝
+-   **NekoLocal (đang update):** Một tính năng mới đang được phát triển, giúp mình có thể dùng các model local và chạy offline trên console! (Sẽ sớm ra mắt nha!) 🚀
 
 ## Cài Đặt 🛠️
 
 Để mình có thể hoạt động tốt, bạn cần làm theo các bước sau:
 
-1.  **Clone repository:**
+1.  **Tạo Discord Application:**
+    -  Truy cập [Discord Developer Portal](https://discord.com/developers/applications).
+    -  Nhấn vào "New Application" và đặt tên cho application của bạn (ví dụ: "NekoChatBot").
+    -  Chuyển đến tab "Bot" và nhấn "Add Bot".
+    -  Bật "Message Content Intent" và sao chép bot token. (Quan trọng: Giữ token của bạn an toàn)
+    -  Nhấn vào "OAuth2" và chọn "URL Generator", chọn scope là "bot" và các permission cần thiết, sao chép link invite bot và thêm bot vào server của bạn.
+2.  **Clone repository:**
     -   Mở terminal hoặc command prompt và chạy lệnh sau để clone repository về máy của bạn:
         ```bash
         git clone https://github.com/imnhyneko/NekoChatBot.git
@@ -22,7 +29,7 @@ Xin chào mọi người! 👋 Mình là **NekoChatBot**, một bot Discord siê
         cd NekoAPI
         ```
 
-2.  **Tạo môi trường ảo:**
+3.  **Tạo môi trường ảo:**
     -   (Khuyến khích) Tạo một môi trường ảo để quản lý các thư viện của dự án một cách độc lập.
       -   **Nếu bạn dùng `conda`:**
           ```bash
@@ -36,13 +43,13 @@ Xin chào mọi người! 👋 Mình là **NekoChatBot**, một bot Discord siê
           .\venv\Scripts\activate # Trên Windows
           ```
 
-3.  **Cài đặt các thư viện:**
+4.  **Cài đặt các thư viện:**
     -   Chạy lệnh sau để cài đặt các thư viện cần thiết (nếu chưa tạo môi trường ảo, có thể cài đặt trực tiếp):
         ```bash
         pip install -r requirements.txt
         ```
 
-4.  **Tạo file `.env`:**
+5.  **Tạo file `.env`:**
     -   Tạo một file có tên `.env` trong thư mục gốc của dự án.
     -   Thêm các biến môi trường sau:
         ```
@@ -54,7 +61,7 @@ Xin chào mọi người! 👋 Mình là **NekoChatBot**, một bot Discord siê
         ```
     -   **Lưu ý:** Hãy giữ bí mật các thông tin này nhé! 🤫
 
-5.  **Chạy bot:**
+6.  **Chạy bot:**
     -   Chạy file `main.py` để mình thức dậy nhé!
         ```bash
         python main.py
