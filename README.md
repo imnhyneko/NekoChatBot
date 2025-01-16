@@ -9,19 +9,41 @@ Xin chào mọi người! 👋 Mình là **NekoChatBot**, một bot Discord siê
 -   **Hỗ trợ lập trình:** Mình có thể nhận diện các đoạn code và tạo Gist để giúp bạn xem code dễ dàng hơn! 💻
 -   **Nhớ bối cảnh:** Mình có thể nhớ những gì bạn đã nói trước đó, giúp cuộc trò chuyện trở nên tự nhiên hơn! 🧠
 -   **Log hoạt động:** Mình có một file log để ghi lại mọi thứ mình làm, giúp bạn theo dõi mình tốt hơn (và cũng để mình biết mình đang làm gì nữa hehe) 📝
--   **NekoLocal (đang update):** Một tính năng mới đang được phát triển, giúp mình có thể dùng các model local và chạy offline trên console! (Sẽ sớm ra mắt nha!) 🚀
+-   **NekoLocal (đang phát triển):** Với tính năng này, mình sẽ có thể chạy offline và bạn có thể trò chuyện với mình trực tiếp trên console! (Mình sẽ có mặt mọi lúc, mọi nơi!) 🏡💻
+
+## Người Tạo Ra 🧑‍💻
+
+Mình được tạo ra bởi **美咲👻** (Discord ID: @imnhyneko).
 
 ## Cài Đặt 🛠️
 
 Để mình có thể hoạt động tốt, bạn cần làm theo các bước sau:
 
 1.  **Tạo Discord Application:**
-    -  Truy cập [Discord Developer Portal](https://discord.com/developers/applications).
-    -  Nhấn vào "New Application" và đặt tên cho application của bạn (ví dụ: "NekoChatBot").
-    -  Chuyển đến tab "Bot" và nhấn "Add Bot".
-    -  Bật "Message Content Intent" và sao chép bot token. (Quan trọng: Giữ token của bạn an toàn)
+    -   Truy cập [Discord Developer Portal](https://discord.com/developers/applications).
+    -   Nhấn vào "New Application" và đặt tên cho application của bạn (ví dụ: "NekoChatBot").
+    -   Chuyển đến tab "Bot" và nhấn "Add Bot".
+    -   Bật "Message Content Intent" và sao chép bot token. (Quan trọng: Giữ token của bạn an toàn)
     -  Nhấn vào "OAuth2" và chọn "URL Generator", chọn scope là "bot" và các permission cần thiết, sao chép link invite bot và thêm bot vào server của bạn.
-2.  **Clone repository:**
+
+2.  **Lấy Google API Keys:**
+    *   **Google Gemini API Key:**
+        -   Truy cập [Google AI Studio](https://aistudio.google.com/).
+        -   Đăng nhập bằng tài khoản Google của bạn.
+        -   Chọn "Get API Key" và tạo một API key mới (hoặc sử dụng một API key đã có).
+        -   Sao chép API key này, bạn sẽ cần nó để sử dụng Gemini.
+        *   **Lưu ý:** Hãy giữ bí mật API Key của bạn nhé! 🤫
+    *   **Google Custom Search API Key và Engine ID:**
+        -  Truy cập [Google Cloud Console](https://console.cloud.google.com/).
+        -  Tạo một dự án mới (nếu chưa có).
+        -  Trong dự án, tìm và enable "Custom Search API".
+        -  Tạo credentials và chọn "API key". Sao chép API key này.
+        -  Truy cập [Google Custom Search Engine](https://cse.google.com/cse/all).
+        -  Tạo một search engine mới (hoặc sử dụng một search engine đã có).
+        -  Sao chép "Search Engine ID".
+         *   **Lưu ý:** Hãy giữ bí mật API Key và Engine ID của bạn nhé! 🤫
+
+3.  **Clone repository:**
     -   Mở terminal hoặc command prompt và chạy lệnh sau để clone repository về máy của bạn:
         ```bash
         git clone https://github.com/imnhyneko/NekoChatBot.git
@@ -29,27 +51,27 @@ Xin chào mọi người! 👋 Mình là **NekoChatBot**, một bot Discord siê
         cd NekoAPI
         ```
 
-3.  **Tạo môi trường ảo:**
+4.  **Tạo môi trường ảo:**
     -   (Khuyến khích) Tạo một môi trường ảo để quản lý các thư viện của dự án một cách độc lập.
-      -   **Nếu bạn dùng `conda`:**
+        -   **Nếu bạn dùng `conda`:**
           ```bash
           conda env create -f environment.yml
           conda activate nekobot-env
           ```
-      -  **Nếu bạn dùng `virtualenv`:**
+        -   **Nếu bạn dùng `virtualenv`:**
           ```bash
           python -m venv venv
           source venv/bin/activate # Trên Linux/macOS
           .\venv\Scripts\activate # Trên Windows
           ```
 
-4.  **Cài đặt các thư viện:**
+5.  **Cài đặt các thư viện:**
     -   Chạy lệnh sau để cài đặt các thư viện cần thiết (nếu chưa tạo môi trường ảo, có thể cài đặt trực tiếp):
         ```bash
         pip install -r requirements.txt
         ```
 
-5.  **Tạo file `.env`:**
+6.  **Tạo file `.env`:**
     -   Tạo một file có tên `.env` trong thư mục gốc của dự án.
     -   Thêm các biến môi trường sau:
         ```
@@ -61,7 +83,7 @@ Xin chào mọi người! 👋 Mình là **NekoChatBot**, một bot Discord siê
         ```
     -   **Lưu ý:** Hãy giữ bí mật các thông tin này nhé! 🤫
 
-6.  **Chạy bot:**
+7.  **Chạy bot:**
     -   Chạy file `main.py` để mình thức dậy nhé!
         ```bash
         python main.py
@@ -76,7 +98,7 @@ Xin chào mọi người! 👋 Mình là **NekoChatBot**, một bot Discord siê
 ### 2. Trò chuyện với mình 💬
 - Nhắn tin trực tiếp cho mình hoặc trong các kênh mà mình được phép hoạt động (ID kênh được cấu hình trong file .env)
 - Mình sẽ trả lời tin nhắn của bạn ngay! 🥰
-    -   **Lưu ý:** Mình sẽ hoạt động tốt nhất ở các kênh có nội dung an toàn (SFW) và mình cũng có thể hoạt động ở các kênh có nội dung 18+ (NSFW) nếu bạn cho phép.
+    -   **Lưu ý:** Mình sẽ hoạt động tốt nhất ở các kênh có nội dung an toàn (SFW) và mình chưa thể hoạt động ở các kênh có nội dung 18+ (NSFW) do api chưa cho phép. Có thể ở phiên bản NekoLocal thì mình có thể làm điều này được nhé! 🥰
 
 ### 3. Sử dụng lệnh `!timkiem` 🔎
 
@@ -93,6 +115,10 @@ Xin chào mọi người! 👋 Mình là **NekoChatBot**, một bot Discord siê
 
 ### 5. Dừng bot 🛑
 -   Để dừng bot, nhập `stop` vào console. Mình sẽ tạm biệt bạn một cách nhẹ nhàng 🥺
+
+## Liên Hệ ✉️
+
+Nếu bạn có bất kỳ câu hỏi hoặc góp ý nào, hãy liên hệ với người tạo ra mình nhé: [**美咲👻**](https://discordapp.com/users/920620348758695957).
 
 ## Lưu ý quan trọng ⚠️
 
