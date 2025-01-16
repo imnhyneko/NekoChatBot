@@ -92,6 +92,13 @@ LANGUAGE_MAPPINGS = {
     "text": []  # Default, no highlight
 }
 
+# Custom Emoji IDs 🐱
+CLOCK_EMOJI = "<a:clock:1323724990113251430>"
+NEKO_EARS_EMOJI = "<a:nekoears:1323728755327373465>"
+CAT_KEYBOARD_WARRIOR_EMOJI = "<a:CatKeyboardWarrior:1323730573390381098>"
+LUNA_THINKING_EMOJI = "<:luna_thinking:1323731582896574485>"
+BARD_THINK_EMOJI = "<a:bard_think:1323731554102415450>"
+
 async def google_search(query, num_results=10, start=1):
     """Performs a search using Google Custom Search API. 🔍"""
     try:
@@ -145,9 +152,9 @@ async def get_api_response(prompt):
 
 async def create_footer(processing_time, text_response):
     """Creates a formatted footer with response information. 🐾"""
-    footer = (f"> <a:clock:1323724990113251430> {processing_time} seconds\n"
-              f"> <a:nekoears:1323728755327373465> gemini-2.0-flash-exp\n"
-              f"> <a:CatKeyboardWarrior:1323730573390381098> {len(text_response.split())} words\n")
+    footer = (f"> {CLOCK_EMOJI} {processing_time} seconds\n"
+              f"> {NEKO_EARS_EMOJI} gemini-2.0-flash-exp\n"
+              f"> {CAT_KEYBOARD_WARRIOR_EMOJI} {len(text_response.split())} words\n")
     return footer
 
 async def send_long_message(channel, content, file=None, reference=None):
@@ -344,7 +351,7 @@ async def search(ctx, *, query: str):
             if response_text:
                 logger.debug(f"Search API response (truncated): {response_text[:50]}...")
                 
-                thinking_message = f"## <:luna_thinking:1323731582896574485> Just a moment <@{ctx.message.author.id}>, Neko is thinking... <a:bard_think:1323731554102415450>"
+                thinking_message = f"## {LUNA_THINKING_EMOJI} Just a moment <@{ctx.message.author.id}>, Neko is thinking... {BARD_THINK_EMOJI}"
                 sent_message = await ctx.channel.send(content=thinking_message, reference=ctx.message)
                 await send_response_with_thinking(ctx.channel, response_text, ctx.message, sent_message)
             else:
@@ -360,7 +367,7 @@ async def search(ctx, *, query: str):
 @bot.command(name='neko', help='Chat with Neko (e.g., !neko how are you?)')
 async def chat(ctx, *, message: str):
     """Chat with bot in any channel. 💬"""
-    thinking_message = f"## <:luna_thinking:1323731582896574485> Just a moment <@{ctx.author.id}>, Neko is thinking... <a:bard_think:1323731554102415450>"
+    thinking_message = f"## {LUNA_THINKING_EMOJI} Just a moment <@{ctx.author.id}>, Neko is thinking... {BARD_THINK_EMOJI}"
     sent_message = await ctx.send(content=thinking_message, reference=ctx.message)
 
     start_time = time.time()
@@ -419,7 +426,7 @@ async def on_message(message):
     logger.debug(f"Message Received: {message.content}")
     if message.author == bot.user:
         return #Ignore message from bot
-    thinking_message = f"## <:luna_thinking:1323731582896574485> Just a moment <@{message.author.id}>, Neko is thinking... <a:bard_think:1323731554102415450>"
+    thinking_message = f"## {LUNA_THINKING_EMOJI} Just a moment <@{message.author.id}>, Neko is thinking... {BARD_THINK_EMOJI}"
     sent_message = await message.channel.send(content=thinking_message, reference=message) #Send thinking message immediately
     asyncio.create_task(process_message(message, sent_message))  # Process the rest of the message as a new task
     await bot.process_commands(message)  # Process commands
