@@ -1,0 +1,7 @@
+discord.py
+google-generativeai
+requests
+python-dotenv
+google-api-python-client
+colorama
+tenacity
