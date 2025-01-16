@@ -71,8 +71,8 @@ SFW_PROMPT = (
 NSFW_PROMPT = SFW_PROMPT
 
 # IDs of channels where the bot is allowed
-ALLOWED_CHANNEL_ID = <yourchannel_id>
-NSFW_CHANNEL_ID = <yourchannel_id>
+ALLOWED_CHANNEL_ID = 000000000000
+NSFW_CHANNEL_ID = 000000000000
 
 # Context memory
 CONTEXT_MEMORY = defaultdict(list)
