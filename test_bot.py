@@ -5,6 +5,7 @@ import discord
 from discord.ext import commands
 from io import StringIO
 from collections import defaultdict
+import time
 
 # Import the bot file
 import sys
@@ -96,7 +97,7 @@ class TestBot(unittest.IsolatedAsyncioTestCase):
         mock_response = AsyncMock()
         mock_response.text = "Test Response"
         mock_gen_model.return_value.generate_content.return_value = mock_response
-        response, error = await bot.get_api_response("Test Prompt")
+        response, error = await asyncio.wait_for(bot.get_api_response("Test Prompt"), timeout=10)
         self.assertIsInstance(response, str)
         self.assertIsNone(error)
         mock_gen_model.assert_called_once()
@@ -106,7 +107,7 @@ class TestBot(unittest.IsolatedAsyncioTestCase):
        mock_response = AsyncMock()
        mock_response.text = None
        mock_gen_model.return_value.generate_content.return_value = mock_response
-       response, error = await bot.get_api_response("Test Prompt")
+       response, error = await asyncio.wait_for(bot.get_api_response("Test Prompt"), timeout=10)
        self.assertIsNone(response)
        self.assertIsInstance(error, str)
        mock_gen_model.assert_called_once()
@@ -115,7 +116,7 @@ class TestBot(unittest.IsolatedAsyncioTestCase):
     async def test_get_api_response_error(self, mock_gen_model):
         mock_gen_model.return_value.generate_content.side_effect = Exception("API Error")
         with self.assertRaises(Exception, msg="API Error"):
-          await bot.get_api_response("Test Prompt")
+          await asyncio.wait_for(bot.get_api_response("Test Prompt"), timeout=10)
         mock_gen_model.assert_called_once()
 
     async def test_create_footer(self):
