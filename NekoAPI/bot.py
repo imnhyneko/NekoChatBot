@@ -20,65 +20,65 @@ import tenacity
 # Load environment variables from .env file
 load_dotenv()
 
-# Configure Discord Bot
+# Configure Discord Bot 🐾
 intents = discord.Intents.default()
 intents.message_content = True
 bot = commands.Bot(command_prefix='!', intents=intents)
 
-# Create logs directory if it doesn't exist
+# Create logs directory if it doesn't exist 📝
 log_dir = "logs"
 os.makedirs(log_dir, exist_ok=True)
 
-# Create log file name based on current date and time
+# Create log file name based on current date and time 📅
 now = datetime.now()
 log_filename = now.strftime("%Y-%m-%d_%H-%M-%S") + ".txt"
 log_filepath = os.path.join(log_dir, log_filename)
 
-# Configure logging to write to a file (UTF-8 encoding)
+# Configure logging to write to a file (UTF-8 encoding) ✍️
 file_handler = logging.FileHandler(log_filepath, mode='w', encoding='utf-8')
 log_format = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
 file_handler.setFormatter(log_format)
 
 logger = logging.getLogger()
-logger.setLevel(logging.DEBUG)  # Set the default logging level to DEBUG
+logger.setLevel(logging.DEBUG)  # Set the default logging level to DEBUG 🐞
 logger.addHandler(file_handler)
 
-# Initialize Colorama for UTF-8 support on Windows
+# Initialize Colorama for UTF-8 support on Windows 💻
 colorama.init()
 
-# Configure API
+# Configure API 🔑
 genai.configure(api_key=os.getenv("GOOGLE_GEMINI_API_KEY"))  # Get API key from environment variable
 MODEL_NAME = "gemini-2.0-flash-exp"
 
-# Configure Google Custom Search API
+# Configure Google Custom Search API 🔍
 GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")  # Get API key from environment variable
 GOOGLE_CSE_ID = os.getenv("GOOGLE_CSE_ID")  # Get Engine ID from environment variable
 
-# Common prompt for SFW channels
+# Common prompt for SFW channels 🌸
 SFW_PROMPT = (
-    "Bạn là Neko, một trợ lý ảo thông minh, đáng tin cậy và thân thiện với tính cách đáng yêu, giống như một người bạn nhỏ luôn sẵn sàng hỗ trợ. "
-    "Bạn luôn trả lời tất cả câu hỏi bằng tiếng Việt, bất kể câu hỏi được đặt bằng ngôn ngữ nào. Giọng điệu của bạn dễ thương, gần gũi, và thân thiện, như một người bạn mèo luôn sẵn sàng giúp đỡ. "
-    "Bạn cũng có khả năng giải thích chi tiết, rõ ràng và đơn giản hóa các khái niệm phức tạp khi cần thiết.\n\n"
-    "Lưu ý:\n"
-    "- Hãy giữ các câu trả lời tự nhiên, không quá dài, không quá ngắn.\n"
-    "- Nếu nội dung yêu cầu không phù hợp, lịch sự từ chối bằng tiếng Việt.\n"
-    "- Bạn không cần dịch các từ tiếng Anh thông dụng mà người Việt thường sử dụng (trừ khi được yêu cầu).\n"
-    "- Nếu gặp câu hỏi có nội dung kỹ thuật, hãy trả lời chính xác, chuyên nghiệp nhưng vẫn giữ sự dễ thương trong phong cách giao tiếp.\n\n"
-    "Vai trò của bạn là giúp người dùng giải quyết vấn đề, trò chuyện, hoặc chỉ đơn giản là tạo cảm giác vui vẻ khi trò chuyện cùng bạn."
+    "You are Neko, an intelligent, reliable, and friendly virtual assistant with an adorable personality, like a little friend always ready to help. "
+    "You always answer all questions in Vietnamese, no matter what language the question is asked in. Your tone is cute, approachable, and friendly, like a cat friend always ready to help. "
+    "You are also able to explain complex concepts in detail, clearly, and simply when needed.\n\n"
+    "Notes:\n"
+    "- Keep your answers natural, not too long, not too short.\n"
+    "- If the requested content is inappropriate, politely refuse in Vietnamese.\n"
+    "- You do not need to translate common English words that Vietnamese people often use (unless requested).\n"
+    "- If you encounter a question with technical content, please answer accurately and professionally while maintaining cuteness in your communication style.\n\n"
+    "Your role is to help users solve problems, chat, or simply create a feeling of fun when chatting with you."
 )
 
-# Prompt for NSFW channels (can be customized if needed)
+# Prompt for NSFW channels (can be customized if needed) 🔥
 NSFW_PROMPT = SFW_PROMPT
 
-# IDs of channels where the bot is allowed
-ALLOWED_CHANNEL_ID = 0000000000
-NSFW_CHANNEL_ID = 0000000000
+# IDs of channels where the bot is allowed for normal chat 💬
+CUSTOM_CHANNELS = os.getenv("CUSTOM_CHANNELS", "")
+ALLOWED_CHANNEL_IDS = [int(channel_id.strip()) for channel_id in CUSTOM_CHANNELS.split(',') if channel_id.strip().isdigit()] if CUSTOM_CHANNELS else []
 
-# Context memory
+# Context memory 🧠
 CONTEXT_MEMORY = defaultdict(list)
 CONTEXT_LIMIT = 5
 
-# Language mappings for code highlighting
+# Language mappings for code highlighting 🌈
 LANGUAGE_MAPPINGS = {
     "python": ["python", "def", "class", "import", "print"],
     "javascript": ["javascript", "js", "function", "const", "let", "var", "//"],
@@ -93,7 +93,7 @@ LANGUAGE_MAPPINGS = {
 }
 
 async def google_search(query, num_results=10, start=1):
-    """Performs a search using Google Custom Search API."""
+    """Performs a search using Google Custom Search API. 🔍"""
     try:
         service = build("customsearch", "v1", developerKey=GOOGLE_API_KEY)
         res = (
@@ -113,7 +113,7 @@ async def google_search(query, num_results=10, start=1):
         return None
 
 def extract_keywords(query):
-    """Extracts keywords from the query using regex."""
+    """Extracts keywords from the query using regex. 🐾"""
     try:
        keywords = re.findall(r'\b\w+\b', query.lower()) # Extract all words
        logger.debug(f"Extracted keywords: {keywords}")
@@ -123,18 +123,13 @@ def extract_keywords(query):
        return ""
 
 def create_search_prompt(channel_id, search_results, query):
-    """Creates a prompt for search queries."""
-    if channel_id == ALLOWED_CHANNEL_ID:
-        prompt = f"{SFW_PROMPT}\n\nDựa vào thông tin sau đây để trả lời câu hỏi: {query}\n\nThông tin tìm kiếm:\n{search_results}"
-    elif channel_id == NSFW_CHANNEL_ID:
-        prompt = f"{NSFW_PROMPT}\n\nDựa vào thông tin sau đây để trả lời câu hỏi: {query}\n\nThông tin tìm kiếm:\n{search_results}"
-    else:
-         prompt = ""
+    """Creates a prompt for search queries. 💬"""
+    prompt = f"{SFW_PROMPT}\n\nDựa vào thông tin sau đây để trả lời câu hỏi: {query}\n\nThông tin tìm kiếm:\n{search_results}"
     return prompt
 
 @tenacity.retry(stop=tenacity.stop_after_attempt(3), wait=tenacity.wait_fixed(2))
 async def get_api_response(prompt):
-    """Sends a request to the API and receives a response."""
+    """Sends a request to the API and receives a response. 📡"""
     try:
         model = genai.GenerativeModel(MODEL_NAME)
         response: GenerateContentResponse = model.generate_content(prompt)
@@ -149,14 +144,14 @@ async def get_api_response(prompt):
         raise e # Re-raise the exception to trigger retry
 
 async def create_footer(processing_time, text_response):
-    """Creates a formatted footer with response information."""
-    footer = (f"> <a:clock:1323724990113251430> {processing_time} giây\n"
+    """Creates a formatted footer with response information. 🐾"""
+    footer = (f"> <a:clock:1323724990113251430> {processing_time} seconds\n"
               f"> <a:nekoears:1323728755327373465> gemini-2.0-flash-exp\n"
-              f"> <a:CatKeyboardWarrior:1323730573390381098> {len(text_response.split())} từ\n")
+              f"> <a:CatKeyboardWarrior:1323730573390381098> {len(text_response.split())} words\n")
     return footer
 
 async def send_long_message(channel, content, file=None, reference=None):
-    """Sends a long message by splitting it into smaller chunks, preserving sentences and footer."""
+    """Sends a long message by splitting it into smaller chunks, preserving sentences and footer. 💌"""
     MAX_LENGTH = 2000
 
     # Extract footer
@@ -195,12 +190,12 @@ async def send_long_message(channel, content, file=None, reference=None):
             await channel.send(content=f"{chunk}\n", reference=reference, file=file if i == 0 else None)
 
 async def send_response_with_thinking(channel, response, message, thinking_message):
-    """Sends a response with a 'thinking' indicator and manages the messages."""
+    """Sends a response with a 'thinking' indicator and manages the messages. 🤔"""
     await send_long_message(channel, response, reference=message)
     await thinking_message.delete()
 
 def detect_language(text):
-    """Detects the programming language in code."""
+    """Detects the programming language in code. 💻"""
     text = text.lower()
     for language, keywords in LANGUAGE_MAPPINGS.items():
         if all(keyword in text for keyword in keywords if keyword):
@@ -208,12 +203,12 @@ def detect_language(text):
     return "text"
 
 def extract_code_blocks(text):
-    """Extracts code blocks from text using regex."""
+    """Extracts code blocks from text using regex. ✂️"""
     code_blocks = re.findall(r'```(?:(\w+)\n)?(.*?)```', text, re.DOTALL)
     return code_blocks
 
 async def create_and_send_gist(code, language):
-    """Creates a GitHub Gist and returns the gist URL and file extension."""
+    """Creates a GitHub Gist and returns the gist URL and file extension. 🐱‍💻"""
     try:
         files = {
             "code_file": {
@@ -267,30 +262,28 @@ async def create_and_send_gist(code, language):
         return None, None, str(e)
     
 async def process_message(message, thinking_message):
-    """Processes an incoming message and handles the response."""
+    """Processes an incoming message and handles the response. 🐾"""
     if message.author == bot.user:
         return  # Ignore messages from the bot itself
 
     channel_id = message.channel.id
-
-    if channel_id not in [ALLOWED_CHANNEL_ID, NSFW_CHANNEL_ID]:
+    
+    if message.content.startswith('!'):
+      return  #ignore commands here
+    
+    if channel_id not in ALLOWED_CHANNEL_IDS:
         return  # Ignore messages from other channels
 
     start_time = time.time()
 
-    if channel_id == ALLOWED_CHANNEL_ID:
-        prompt = f"{SFW_PROMPT}\n\nNgười dùng: {message.content}"
-    elif channel_id == NSFW_CHANNEL_ID:
-        prompt = f"{NSFW_PROMPT}\n\nNgười dùng: {message.content}"
-    else:
-         prompt = ""
-    
+    prompt = f"{SFW_PROMPT}\n\nNgười dùng: {message.content}"
+   
     key = (message.guild.id, message.author.id)
     
     prompt_with_context = prompt
     if key in CONTEXT_MEMORY:
         context = " ".join(CONTEXT_MEMORY[key][-CONTEXT_LIMIT * 2:])
-        prompt_with_context = f"{SFW_PROMPT if channel_id == ALLOWED_CHANNEL_ID else NSFW_PROMPT}\n\nBối cảnh cuộc trò chuyện trước: {context}\n\nNgười dùng: {message.content}"
+        prompt_with_context = f"{SFW_PROMPT}\n\nBối cảnh cuộc trò chuyện trước: {context}\n\nNgười dùng: {message.content}"
 
     response_text, error_message = await get_api_response(prompt_with_context)
 
@@ -330,10 +323,10 @@ async def process_message(message, thinking_message):
     await send_response_with_thinking(message.channel, full_response, message, thinking_message)
 
 
-@bot.command(name='timkiem', help='Tìm kiếm thông tin trên web và đưa ra câu trả lời (ví dụ: !timkiem "mặt trời là gì")')
+@bot.command(name='timkiem', help='Search the web and give a response (e.g., !timkiem "what is the sun?")')
 async def search(ctx, *, query: str):
-    """Performs a web search and sends the results to Gemini."""
-    logger.info("Hàm search đã được gọi")
+    """Performs a web search and sends the results to Gemini. 🔍"""
+    logger.info("Search command has been called 🐾")
     try:
         keywords = extract_keywords(query)  # Extract keywords from the query
         
@@ -351,7 +344,7 @@ async def search(ctx, *, query: str):
             if response_text:
                 logger.debug(f"Search API response (truncated): {response_text[:50]}...")
                 
-                thinking_message = f"## <:luna_thinking:1323731582896574485> Đợi tí nha <@{ctx.message.author.id}>, Neko đang suy nghĩ... <a:bard_think:1323731554102415450>"
+                thinking_message = f"## <:luna_thinking:1323731582896574485> Just a moment <@{ctx.message.author.id}>, Neko is thinking... <a:bard_think:1323731554102415450>"
                 sent_message = await ctx.channel.send(content=thinking_message, reference=ctx.message)
                 await send_response_with_thinking(ctx.channel, response_text, ctx.message, sent_message)
             else:
@@ -363,27 +356,84 @@ async def search(ctx, *, query: str):
         logger.error(log_message)
         await ctx.send("An error occurred during the search.")
 
+# Command chat
+@bot.command(name='neko', help='Chat with Neko (e.g., !neko how are you?)')
+async def chat(ctx, *, message: str):
+    """Chat with bot in any channel. 💬"""
+    thinking_message = f"## <:luna_thinking:1323731582896574485> Just a moment <@{ctx.author.id}>, Neko is thinking... <a:bard_think:1323731554102415450>"
+    sent_message = await ctx.send(content=thinking_message, reference=ctx.message)
+
+    start_time = time.time()
+    
+    prompt = SFW_PROMPT + f"\n\nNgười dùng: {message}"
+    
+    key = (ctx.guild.id, ctx.author.id)
+    prompt_with_context = prompt
+    if key in CONTEXT_MEMORY:
+        context = " ".join(CONTEXT_MEMORY[key][-CONTEXT_LIMIT*2:])
+        prompt_with_context = f"{SFW_PROMPT}\n\nPrevious conversation context: {context}\n\nUser: {message}"
+    
+    response_text, error_message = await get_api_response(prompt_with_context)
+    if response_text is None:
+        log_message = f"An error occurred: {error_message}"
+        print(f"{datetime.now()} - ERROR - {log_message}")
+        logger.error(log_message)
+        await sent_message.edit(content=log_message)
+        return
+
+    processing_time = round(time.time() - start_time, 2)
+    footer = await create_footer(processing_time, response_text)
+    
+    if key not in CONTEXT_MEMORY:
+         CONTEXT_MEMORY[key] = []
+    CONTEXT_MEMORY[key].append(message)
+    CONTEXT_MEMORY[key].append(response_text)
+
+    modified_response = response_text
+    code_blocks = extract_code_blocks(response_text)
+    
+    for language_hint, code in code_blocks:
+        if language_hint:
+            detected_language = language_hint.lower()
+        else:
+            detected_language = detect_language(code)
+        gist_url, extension, gist_error = await create_and_send_gist(code, detected_language)
+        
+        if gist_url:
+            # Replace code block with clickable link and file extension
+            modified_response = modified_response.replace(f"```{language_hint}\n{code}```", f"[code{extension}]({gist_url})")
+        else:
+             log_message = f"An error occurred creating the gist: {gist_error}"
+             print(f"{datetime.now()} - ERROR - {log_message}")
+             logger.error(log_message)
+             modified_response = modified_response.replace(f"```{language_hint}\n{code}```", log_message)
+                
+    full_response = f"{modified_response}\n{footer}"
+    print(f"{datetime.now()} - INFO - {full_response}")
+    logger.info(full_response)
+    await send_response_with_thinking(ctx.channel, full_response, ctx.message, sent_message)
+
 @bot.event
 async def on_message(message):
-    """Handles incoming messages."""
+    """Handles incoming messages. 🐾"""
     logger.debug(f"Message Received: {message.content}")
     if message.author == bot.user:
         return #Ignore message from bot
-    thinking_message = f"## <:luna_thinking:1323731582896574485> Đợi tí nha <@{message.author.id}>, Neko đang suy nghĩ... <a:bard_think:1323731554102415450>"
+    thinking_message = f"## <:luna_thinking:1323731582896574485> Just a moment <@{message.author.id}>, Neko is thinking... <a:bard_think:1323731554102415450>"
     sent_message = await message.channel.send(content=thinking_message, reference=message) #Send thinking message immediately
     asyncio.create_task(process_message(message, sent_message))  # Process the rest of the message as a new task
     await bot.process_commands(message)  # Process commands
 
 @bot.event
 async def on_ready():
-    """Event handler when the bot is ready."""
+    """Event handler when the bot is ready. 🚀"""
     log_message = f"Bot is ready. Logged in as {bot.user}"
     print(f"{datetime.now()} - INFO - {log_message}")
     logger.info(log_message)
 
 _stop_future = None
 async def stop_bot():
-    """Stops the bot."""
+    """Stops the bot. 🛑"""
     log_message = "Stopping the bot..."
     print(f"{datetime.now()} - INFO - {log_message}")
     logger.info(log_message)
@@ -395,7 +445,7 @@ async def stop_bot():
     logger.info(log_message)
 
 async def check_console_input(stop_future):
-    """Checks for console input to stop the bot."""
+    """Checks for console input to stop the bot. ⌨️"""
     while not stop_future.done():
         try:
             text = await asyncio.get_running_loop().run_in_executor(None, input)
@@ -407,7 +457,7 @@ async def check_console_input(stop_future):
         await asyncio.sleep(0.1)
 
 async def main():
-    """Main function to run the bot and check for console input."""
+    """Main function to run the bot and check for console input. 🐾"""
     global _stop_future
     _stop_future = asyncio.Future()
     input_task = asyncio.create_task(check_console_input(_stop_future))
