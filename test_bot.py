@@ -32,6 +32,7 @@ from bot import (
     create_search_prompt,
     _stop_future,
     stop_bot
+    send_response_with_thinking
 )
 
 # Load environment variables for testing
