@@ -11,7 +11,6 @@ dependencies:
   - discord.py 
   - google-generativeai
   - requests
-  - json
   - python-dotenv
   - google-api-python-client
   - colorama 
