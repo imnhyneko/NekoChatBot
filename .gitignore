@@ -128,7 +128,10 @@ celerybeat.pid
 *.sage.py
 
 # Environments
-.env
+NekoAPI/.env
+.env.test
+logs/*
+NekoAPI/logs/*
 .venv
 env/
 venv/
