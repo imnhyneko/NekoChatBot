@@ -482,7 +482,8 @@ class TestBot(unittest.IsolatedAsyncioTestCase):
         mock_message.author = AsyncMock()
         mock_message.author.bot = False
         mock_message.channel.send = AsyncMock()
-
+        
+        # Use the real bot object to process commands
         await bot.on_message(mock_message)
         mock_process_message.assert_called()
         await mock_message.channel.send.assert_called()
