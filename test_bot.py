@@ -500,7 +500,7 @@ class TestBot(unittest.IsolatedAsyncioTestCase):
 
         await bot.on_message(mock_message)
         mock_process_message.assert_called()
-        mock_message.channel.send.assert_called()
+        await mock_message.channel.send.assert_called()
 
     @patch('bot.process_message')
     async def test_on_message_bot_user(self, mock_process_message):
