@@ -19,6 +19,7 @@ Xin chào mọi người! 👋 Mình là **NekoChatBot**, một bot Discord siê
         ```bash
         git clone https://github.com/imnhyneko/NekoChatBot.git
         cd NekoChatBot
+        cd NekoAPI
         ```
 
 2.  **Tạo môi trường ảo:**
@@ -54,9 +55,9 @@ Xin chào mọi người! 👋 Mình là **NekoChatBot**, một bot Discord siê
     -   **Lưu ý:** Hãy giữ bí mật các thông tin này nhé! 🤫
 
 5.  **Chạy bot:**
-    -   Chạy file `bot.py` để mình thức dậy nhé!
+    -   Chạy file `main.py` để mình thức dậy nhé!
         ```bash
-        python bot.py
+        python main.py
         ```
     -   Mình sẽ in ra log vào console, và bạn cũng có thể tìm thấy log ở thư mục `logs` nữa đó! 👀
 
