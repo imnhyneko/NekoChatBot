@@ -32,7 +32,7 @@ class TestBot(unittest.IsolatedAsyncioTestCase):
         bot.CONTEXT_MEMORY = defaultdict(list)
 
     async def test_google_search_success(self):
-        with patch('bot.build') as mock_build:
+        with patch('NekoAPI.main.build') as mock_build:
             mock_execute = AsyncMock(return_value={
                 "items": [
                     {"title": "Test Title", "link": "test_link", "snippet": "Test Snippet"}
@@ -45,7 +45,7 @@ class TestBot(unittest.IsolatedAsyncioTestCase):
             mock_build.assert_called_once()
 
     async def test_google_search_no_results(self):
-        with patch('bot.build') as mock_build:
+        with patch('NekoAPI.main.build') as mock_build:
             mock_execute = AsyncMock(return_value={})
             mock_build.return_value.cse.return_value.list.return_value.execute = mock_execute
             results = await bot.google_search("test query")
@@ -53,7 +53,7 @@ class TestBot(unittest.IsolatedAsyncioTestCase):
             mock_build.assert_called_once()
 
     async def test_google_search_error(self):
-       with patch('bot.build') as mock_build:
+       with patch('NekoAPI.main.build') as mock_build:
             mock_execute = AsyncMock(side_effect=Exception("API error"))
             mock_build.return_value.cse.return_value.list.return_value.execute = mock_execute
             results = await bot.google_search("test query")
@@ -91,7 +91,7 @@ class TestBot(unittest.IsolatedAsyncioTestCase):
         prompt = bot.create_search_prompt(123, "search results", "test query")
         self.assertEqual("", prompt)
 
-    @patch('bot.genai.GenerativeModel')
+    @patch('NekoAPI.main.genai.GenerativeModel')
     async def test_get_api_response_success(self, mock_gen_model):
         mock_response = AsyncMock()
         mock_response.text = "Test Response"
@@ -101,7 +101,7 @@ class TestBot(unittest.IsolatedAsyncioTestCase):
         self.assertIsNone(error)
         mock_gen_model.assert_called_once()
     
-    @patch('bot.genai.GenerativeModel')
+    @patch('NekoAPI.main.genai.GenerativeModel')
     async def test_get_api_response_no_text(self, mock_gen_model):
        mock_response = AsyncMock()
        mock_response.text = None
@@ -111,7 +111,7 @@ class TestBot(unittest.IsolatedAsyncioTestCase):
        self.assertIsInstance(error, str)
        mock_gen_model.assert_called_once()
     
-    @patch('bot.genai.GenerativeModel')
+    @patch('NekoAPI.main.genai.GenerativeModel')
     async def test_get_api_response_error(self, mock_gen_model):
         mock_gen_model.return_value.generate_content.side_effect = Exception("API Error")
         with self.assertRaises(Exception, msg="API Error"):
@@ -189,7 +189,7 @@ class TestBot(unittest.IsolatedAsyncioTestCase):
         code_blocks = bot.extract_code_blocks(text)
         self.assertEqual(len(code_blocks), 0)
 
-    @patch('bot.requests.post')
+    @patch('NekoAPI.main.requests.post')
     async def test_create_and_send_gist_success(self, mock_post):
        mock_response = MagicMock()
        mock_response.raise_for_status = MagicMock()
@@ -201,7 +201,7 @@ class TestBot(unittest.IsolatedAsyncioTestCase):
        self.assertIsNone(error)
        mock_post.assert_called_once()
 
-    @patch('bot.requests.post')
+    @patch('NekoAPI.main.requests.post')
     async def test_create_and_send_gist_request_error(self, mock_post):
         mock_post.side_effect = bot.requests.exceptions.RequestException("Request error")
         gist_url, extension, error = await bot.create_and_send_gist("print('hello')", "python")
@@ -209,7 +209,7 @@ class TestBot(unittest.IsolatedAsyncioTestCase):
         self.assertIsNone(extension)
         self.assertIsInstance(error, str)
 
-    @patch('bot.requests.post', side_effect=Exception("Gist Error"))
+    @patch('NekoAPI.main.requests.post', side_effect=Exception("Gist Error"))
     async def test_create_and_send_gist_error(self, mock_post):
         gist_url, extension, error = await bot.create_and_send_gist("print('hello')", "python")
         self.assertIsNone(gist_url)
@@ -233,10 +233,10 @@ class TestBot(unittest.IsolatedAsyncioTestCase):
         await bot.process_message(message_mock, thinking_message_mock)
         self.bot.process_commands.assert_not_called()
         
-    @patch('bot.get_api_response', return_value=("Test Response", None))
-    @patch('bot.create_footer', return_value="Test Footer")
-    @patch('bot.send_response_with_thinking')
-    @patch('bot.extract_code_blocks', return_value=[])
+    @patch('NekoAPI.main.get_api_response', return_value=("Test Response", None))
+    @patch('NekoAPI.main.create_footer', return_value="Test Footer")
+    @patch('NekoAPI.main.send_response_with_thinking')
+    @patch('NekoAPI.main.extract_code_blocks', return_value=[])
     async def test_process_message_sfw_success(self, mock_extract_code_blocks, mock_send, mock_create_footer, mock_get_api):
         message_mock = AsyncMock(spec=discord.Message)
         message_mock.author = AsyncMock(spec=discord.User)
@@ -250,10 +250,10 @@ class TestBot(unittest.IsolatedAsyncioTestCase):
         mock_create_footer.assert_called_once()
         mock_send.assert_called_once()
         
-    @patch('bot.get_api_response', return_value=("Test Response", None))
-    @patch('bot.create_footer', return_value="Test Footer")
-    @patch('bot.send_response_with_thinking')
-    @patch('bot.extract_code_blocks', return_value=[])
+    @patch('NekoAPI.main.get_api_response', return_value=("Test Response", None))
+    @patch('NekoAPI.main.create_footer', return_value="Test Footer")
+    @patch('NekoAPI.main.send_response_with_thinking')
+    @patch('NekoAPI.main.extract_code_blocks', return_value=[])
     async def test_process_message_nsfw_success(self, mock_extract_code_blocks, mock_send, mock_create_footer, mock_get_api):
         message_mock = AsyncMock(spec=discord.Message)
         message_mock.author = AsyncMock(spec=discord.User)
@@ -267,7 +267,7 @@ class TestBot(unittest.IsolatedAsyncioTestCase):
         mock_create_footer.assert_called_once()
         mock_send.assert_called_once()
 
-    @patch('bot.get_api_response', return_value=(None, "API Error"))
+    @patch('NekoAPI.main.get_api_response', return_value=(None, "API Error"))
     async def test_process_message_api_error(self, mock_get_api):
         message_mock = AsyncMock(spec=discord.Message)
         message_mock.author = AsyncMock(spec=discord.User)
@@ -279,10 +279,10 @@ class TestBot(unittest.IsolatedAsyncioTestCase):
         mock_get_api.assert_called_once()
         message_mock.channel.send.assert_called_once()
     
-    @patch('bot.get_api_response', return_value=("Test Response with ```python\ncode```", None))
-    @patch('bot.create_footer', return_value="Test Footer")
-    @patch('bot.send_response_with_thinking')
-    @patch('bot.create_and_send_gist', return_value=("test_gist_url",".py", None))
+    @patch('NekoAPI.main.get_api_response', return_value=("Test Response with ```python\ncode```", None))
+    @patch('NekoAPI.main.create_footer', return_value="Test Footer")
+    @patch('NekoAPI.main.send_response_with_thinking')
+    @patch('NekoAPI.main.create_and_send_gist', return_value=("test_gist_url",".py", None))
     async def test_process_message_code_block(self, mock_gist, mock_send, mock_create_footer, mock_get_api):
        message_mock = AsyncMock(spec=discord.Message)
        message_mock.author = AsyncMock(spec=discord.User)
@@ -297,10 +297,10 @@ class TestBot(unittest.IsolatedAsyncioTestCase):
        mock_send.assert_called_once()
        mock_gist.assert_called_once()
 
-    @patch('bot.get_api_response', return_value=("Test Response", None))
-    @patch('bot.create_footer', return_value="Test Footer")
-    @patch('bot.send_response_with_thinking')
-    @patch('bot.extract_code_blocks', return_value=[])
+    @patch('NekoAPI.main.get_api_response', return_value=("Test Response", None))
+    @patch('NekoAPI.main.create_footer', return_value="Test Footer")
+    @patch('NekoAPI.main.send_response_with_thinking')
+    @patch('NekoAPI.main.extract_code_blocks', return_value=[])
     async def test_process_message_context(self, mock_extract_code_blocks, mock_send, mock_create_footer, mock_get_api):
        message_mock = AsyncMock(spec=discord.Message)
        message_mock.author = AsyncMock(spec=discord.User)
@@ -317,11 +317,11 @@ class TestBot(unittest.IsolatedAsyncioTestCase):
        mock_create_footer.assert_called()
        mock_send.assert_called()
     
-    @patch('bot.extract_keywords', return_value="test query")
-    @patch('bot.google_search', return_value="search results")
-    @patch('bot.create_search_prompt', return_value="test prompt")
-    @patch('bot.get_api_response', return_value=("Test Response", None))
-    @patch('bot.send_response_with_thinking')
+    @patch('NekoAPI.main.extract_keywords', return_value="test query")
+    @patch('NekoAPI.main.google_search', return_value="search results")
+    @patch('NekoAPI.main.create_search_prompt', return_value="test prompt")
+    @patch('NekoAPI.main.get_api_response', return_value=("Test Response", None))
+    @patch('NekoAPI.main.send_response_with_thinking')
     async def test_search_command_success(self, mock_send, mock_api, mock_prompt, mock_search, mock_keywords):
         ctx_mock = AsyncMock(spec=commands.Context)
         ctx_mock.channel.id = bot.ALLOWED_CHANNEL_ID
@@ -332,8 +332,8 @@ class TestBot(unittest.IsolatedAsyncioTestCase):
         mock_api.assert_called_once()
         mock_send.assert_called_once()
         
-    @patch('bot.extract_keywords', return_value="test query")
-    @patch('bot.google_search', return_value=None)
+    @patch('NekoAPI.main.extract_keywords', return_value="test query")
+    @patch('NekoAPI.main.google_search', return_value=None)
     async def test_search_command_no_search_results(self, mock_search, mock_keywords):
         ctx_mock = AsyncMock(spec=commands.Context)
         ctx_mock.channel.id = bot.ALLOWED_CHANNEL_ID
@@ -341,8 +341,8 @@ class TestBot(unittest.IsolatedAsyncioTestCase):
         ctx_mock.send.assert_called_once_with("No results found or an error occurred during the search.")
         mock_search.assert_called_once()
 
-    @patch('bot.extract_keywords', return_value="test query")
-    @patch('bot.google_search', side_effect=Exception("Search Error"))
+    @patch('NekoAPI.main.extract_keywords', return_value="test query")
+    @patch('NekoAPI.main.google_search', side_effect=Exception("Search Error"))
     async def test_search_command_error(self, mock_search, mock_keywords):
         ctx_mock = AsyncMock(spec=commands.Context)
         ctx_mock.channel.id = bot.ALLOWED_CHANNEL_ID
@@ -350,8 +350,8 @@ class TestBot(unittest.IsolatedAsyncioTestCase):
         ctx_mock.send.assert_called_once_with("An error occurred during the search.")
         mock_search.assert_called_once()
     
-    @patch('bot.process_message')
-    @patch('bot.send_long_message')
+    @patch('NekoAPI.main.process_message')
+    @patch('NekoAPI.main.send_long_message')
     async def test_on_message(self, mock_send_long, mock_process_message):
        message_mock = AsyncMock(spec=discord.Message)
        message_mock.author = AsyncMock(spec=discord.User)
@@ -362,7 +362,7 @@ class TestBot(unittest.IsolatedAsyncioTestCase):
        mock_process_message.assert_called_once()
        self.bot.process_commands.assert_called_once()
     
-    @patch('bot.process_message')
+    @patch('NekoAPI.main.process_message')
     async def test_on_message_bot_ignore(self, mock_process_message):
         message_mock = AsyncMock(spec=discord.Message)
         message_mock.author = self.bot.user
@@ -374,8 +374,8 @@ class TestBot(unittest.IsolatedAsyncioTestCase):
         with patch('sys.stdout', new_callable=StringIO) as stdout_mock:
             await bot.on_ready()
             self.assertIn("Bot is ready", stdout_mock.getvalue())
-            
-    @patch('bot.stop_bot')
+    
+    @patch('NekoAPI.main.stop_bot')
     @patch('asyncio.get_running_loop')
     async def test_check_console_input_stop(self, mock_loop, mock_stop_bot):
         mock_future = asyncio.Future()
@@ -387,28 +387,28 @@ class TestBot(unittest.IsolatedAsyncioTestCase):
 
     @patch('asyncio.get_running_loop')
     async def test_check_console_input_eof(self, mock_loop):
-        mock_future = asyncio.Future()
-        mock_executor = MagicMock()
-        mock_executor.run_in_executor.side_effect = EOFError()
-        mock_loop.return_value.run_in_executor = mock_executor
-        await bot.check_console_input(mock_future)
+       mock_future = asyncio.Future()
+       mock_executor = MagicMock()
+       mock_executor.run_in_executor = AsyncMock(side_effect=EOFError()) # Change here so that an awaitable mock object is used
+       mock_loop.return_value.run_in_executor = mock_executor
+       await bot.check_console_input(mock_future)
     
-    @patch('bot.stop_bot')
-    @patch('bot.check_console_input')
+    @patch('NekoAPI.main.stop_bot')
+    @patch('NekoAPI.main.check_console_input')
     async def test_main_keyboard_interrupt(self, mock_check_input, mock_stop_bot):
         self.bot.start.side_effect = KeyboardInterrupt
         await bot.main()
         mock_stop_bot.assert_called_once()
     
-    @patch('bot.stop_bot')
-    @patch('bot.check_console_input')
+    @patch('NekoAPI.main.stop_bot')
+    @patch('NekoAPI.main.check_console_input')
     async def test_main_bot_start_error(self, mock_check_input, mock_stop_bot):
         self.bot.start.side_effect = Exception
         await bot.main()
         mock_stop_bot.assert_called_once()
 
-    @patch('bot.stop_bot')
-    @patch('bot.check_console_input')
+    @patch('NekoAPI.main.stop_bot')
+    @patch('NekoAPI.main.check_console_input')
     async def test_main_success(self, mock_check_input, mock_stop_bot):
         mock_check_input.return_value = None
         await bot.main()
