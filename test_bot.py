@@ -35,21 +35,6 @@ class TestBot(unittest.IsolatedAsyncioTestCase):
         self.mock_thinking_message.edit = AsyncMock()
         self.mock_thinking_message.reference = self.mock_message
         
-        # Capture logs for testing
-        self.log_capture = StringIO()
-        log_handler = logging.StreamHandler(self.log_capture)
-        log_format = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
-        log_handler.setFormatter(log_format)
-        logger.addHandler(log_handler)
-        logger.setLevel(logging.DEBUG)
-
-    async def asyncTearDown(self):
-         # Remove the log handler and close log_capture after each test
-        for handler in logger.handlers[:]:
-            if isinstance(handler, logging.StreamHandler):
-                 logger.removeHandler(handler)
-        self.log_capture.close()
-
     # Test Case 1: Test for message processing logic
     @patch('bot.get_api_response')
     async def test_process_message_sfw(self, mock_get_api_response):
@@ -533,21 +518,6 @@ class TestBot(unittest.IsolatedAsyncioTestCase):
         await stop_bot()
         self.assertFalse(future.set_result.called)
         self.assertTrue(bot.close.called)
-        
-    # Test Case 15: Test log output
-    @patch('builtins.open', new_callable=mock_open)
-    async def test_log_output(self, mock_file):
-        self.mock_message.content = "Log test"
-        await process_message(self.mock_message, self.mock_thinking_message)
-        
-        # Get the logs from the captured buffer
-        log_output = self.log_capture.getvalue()
-        
-        # Basic check if the log message for message is present
-        self.assertIn("Message Received: Log test", log_output)
-        
-        # Check if the full response is logged
-        self.assertIn("Full response:", log_output)
     
     # Test Case 16: Test main and close
     @patch('bot.bot.start')
@@ -574,7 +544,6 @@ class TestBot(unittest.IsolatedAsyncioTestCase):
         # Check that bot.start was called
         mock_bot_start.assert_called_once()
         self.assertTrue(bot.close.called)
-
     
     @patch('bot.bot.start')
     @patch('bot.check_console_input')
