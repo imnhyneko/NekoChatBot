@@ -12,7 +12,7 @@ import textwrap
 from collections import defaultdict
 
 # Import your bot script
-from main import (
+from bot import (
     bot,
     get_api_response,
     create_footer,
