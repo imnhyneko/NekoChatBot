@@ -1,56 +1,56 @@
 # NekoChatBot 🐱💬
 
-Xin chào! 👋 Mình là **NekoChatBot**, một bot Discord thông minh và hữu ích, được thiết kế để trở thành người bạn đồng hành của bạn trên Discord! Mình có khả năng trò chuyện, trả lời câu hỏi, và hỗ trợ tìm kiếm thông tin trên web. Hãy khám phá những gì mình có thể mang lại nhé! 😊
+Hello! 👋 I'm **NekoChatBot**, a smart and helpful Discord bot designed to be your companion on Discord! I can chat, answer questions, and help you search for information on the web. Let's explore what I can offer! 😊
 
-## Chức Năng ✨
+## Features ✨
 
--   **Trò Chuyện Tự Nhiên:** Mình có thể tương tác và trò chuyện với bạn một cách tự nhiên, cung cấp phản hồi và hỗ trợ theo yêu cầu.
--   **Tìm Kiếm Thông Tin:** Bạn có thể sử dụng lệnh `!search` để mình giúp bạn tìm kiếm thông tin trên web.
--   **Hỗ Trợ Lập Trình:** Mình có khả năng nhận diện và tạo Gist từ các đoạn code, hỗ trợ việc chia sẻ và xem code một cách thuận tiện.
--   **Ghi Nhớ Bối Cảnh:** Mình có thể ghi nhớ các tin nhắn trước đó để cung cấp phản hồi phù hợp và liên tục trong cuộc trò chuyện.
--   **Ghi Log Hoạt Động:** Mọi hoạt động của mình đều được ghi lại trong file log, giúp bạn dễ dàng theo dõi và quản lý.
--   **NekoLocal (Đang Phát Triển):** Tính năng này sẽ cho phép mình hoạt động offline trên console, giúp bạn tương tác với mình mọi lúc, mọi nơi.
+-   **Natural Conversation:** I can interact and chat with you naturally, providing responses and assistance as requested.
+-   **Information Search:** You can use the `!search` command to have me help you find information on the web.
+-   **Programming Support:** I can identify and create Gists from code snippets, making it easier to share and view code.
+-   **Contextual Memory:** I can remember previous messages to provide relevant and continuous responses during conversations.
+-   **Activity Logging:** All my activities are logged in a log file, allowing you to easily track and manage my actions.
+-   **NekoLocal (Under Development):** This feature will enable me to operate offline on the console, letting you interact with me anytime, anywhere.
 
-## Người Phát Triển 🧑‍💻
+## Developer 🧑‍💻
 
-Mình được phát triển bởi [**美咲👻**](https://discordapp.com/users/920620348758695957) (Discord ID: @imnhyneko).
+I was developed by [**美咲👻**](https://discordapp.com/users/920620348758695957) (Discord ID: @imnhyneko).
 
-## Hướng Dẫn Cài Đặt 🛠️
+## Installation Guide 🛠️
 
-Để mình hoạt động, bạn vui lòng thực hiện theo các bước sau:
+To get me up and running, please follow these steps:
 
-1.  **Tạo Discord Application:**
-    -   Truy cập [Discord Developer Portal](https://discord.com/developers/applications).
-    -   Nhấn "New Application" và đặt tên (ví dụ: "NekoChatBot").
-    -   Chuyển đến tab "Bot" và chọn "Add Bot".
-    -   Bật "Message Content Intent" và sao chép bot token (Lưu ý: bảo mật token của bạn).
-    -   Trong "OAuth2" -> "URL Generator", chọn scope "bot", các permission cần thiết, sao chép link invite bot và thêm bot vào server.
+1.  **Create a Discord Application:**
+    -   Go to the [Discord Developer Portal](https://discord.com/developers/applications).
+    -   Click "New Application" and give it a name (e.g., "NekoChatBot").
+    -   Navigate to the "Bot" tab and select "Add Bot".
+    -   Enable "Message Content Intent" and copy your bot token (Note: Keep your token secure).
+    -   In "OAuth2" -> "URL Generator," select the "bot" scope, required permissions, copy the bot invite link, and add the bot to your server.
 
-2.  **Lấy Google API Keys:**
+2.  **Obtain Google API Keys:**
     *   **Google Gemini API Key:**
-        -   Truy cập [Google AI Studio](https://aistudio.google.com/).
-        -   Đăng nhập bằng tài khoản Google.
-        -   Chọn "Get API Key" và tạo mới hoặc sử dụng key đã có.
-        -   Sao chép API key này (Bảo mật API Key).
-    *   **Google Custom Search API Key và Engine ID:**
-        -   Truy cập [Google Cloud Console](https://console.cloud.google.com/).
-        -   Tạo một dự án mới (nếu chưa có).
-        -   Enable "Custom Search API".
-        -   Tạo credentials và chọn "API key". Sao chép API key này.
-        -   Truy cập [Google Custom Search Engine](https://cse.google.com/cse/all).
-        -   Tạo hoặc sử dụng một search engine.
-        -   Sao chép "Search Engine ID" (Bảo mật API Key và Engine ID).
+        -   Go to [Google AI Studio](https://aistudio.google.com/).
+        -   Sign in with your Google account.
+        -   Select "Get API Key" and create a new key or use an existing one.
+        -   Copy this API key (Secure your API key).
+    *   **Google Custom Search API Key and Engine ID:**
+        -   Go to the [Google Cloud Console](https://console.cloud.google.com/).
+        -   Create a new project (if you don't already have one).
+        -   Enable the "Custom Search API".
+        -   Create credentials and select "API key". Copy this API key.
+        -   Go to the [Google Custom Search Engine](https://cse.google.com/cse/all).
+        -   Create or use an existing search engine.
+        -   Copy the "Search Engine ID" (Secure your API key and Engine ID).
 
 3.  **Clone Repository:**
-    -   Mở terminal và chạy:
+    -   Open a terminal and run:
         ```bash
         git clone https://github.com/imnhyneko/NekoChatBot.git
         cd NekoChatBot
         cd NekoAPI
         ```
 
-4.  **Tạo Môi Trường Ảo:**
-    -   (Khuyến khích) Tạo một môi trường ảo để quản lý thư viện:
+4.  **Create Virtual Environment:**
+    -   (Recommended) Create a virtual environment to manage libraries:
         -   **`conda`:**
           ```bash
           conda env create -f environment.yml
@@ -59,83 +59,83 @@ Mình được phát triển bởi [**美咲👻**](https://discordapp.com/users
         -   **`virtualenv`:**
           ```bash
           python -m venv venv
-          source venv/bin/activate # Trên Linux/macOS
-          .\venv\Scripts\activate # Trên Windows
+          source venv/bin/activate # On Linux/macOS
+          .\venv\Scripts\activate # On Windows
           ```
 
-5.  **Cài Đặt Thư Viện:**
-    -   Chạy lệnh sau để cài đặt các thư viện cần thiết:
+5.  **Install Libraries:**
+    -   Run the following command to install the required libraries:
         ```bash
         pip install -r requirements.txt
         ```
 
-6.  **Tạo File `.env`:**
-    -   Tạo file `.env` trong thư mục gốc dự án.
-    -   Thêm các biến môi trường sau:
+6.  **Create `.env` File:**
+    -   Create a `.env` file in the root directory of the project.
+    -   Add the following environment variables:
         ```
-        DISCORD_BOT_TOKEN=<bot token Discord>
-        GOOGLE_GEMINI_API_KEY=<API key Gemini>
-        GOOGLE_API_KEY=<API key Google Custom Search>
-        GOOGLE_CSE_ID=<Search Engine ID>
-        GITHUB_TOKEN=<API key GitHub>
-        CUSTOM_CHANNELS=<danh sách các ID kênh, phân tách bằng dấu phẩy, để chat>
+        DISCORD_BOT_TOKEN=<Your Discord bot token>
+        GOOGLE_GEMINI_API_KEY=<Your Gemini API key>
+        GOOGLE_API_KEY=<Your Google Custom Search API key>
+        GOOGLE_CSE_ID=<Your Search Engine ID>
+        GITHUB_TOKEN=<Your GitHub API key>
+        CUSTOM_CHANNELS=<List of channel IDs, comma-separated, for normal chat>
         ```
-     -  Cung cấp danh sách các id kênh dưới dạng giá trị phân tách bằng dấu phẩy cho biến `CUSTOM_CHANNELS`. Ví dụ: `CUSTOM_CHANNELS=1234567890,0987654321`
-    -   (Lưu ý: Bảo mật thông tin này).
+     - Provide the list of channel IDs as comma-separated values for the variable `CUSTOM_CHANNELS`. Example: `CUSTOM_CHANNELS=1234567890,0987654321`
+    -   (Note: Keep this information secure).
 
-7.  **Chạy Bot:**
-    -   Chạy file `main.py`:
+7.  **Run the Bot:**
+    -   Run the `main.py` file:
         ```bash
         python main.py
         ```
-    -   Bạn sẽ thấy log trên console và trong thư mục `logs`.
+    -   You will see logs in the console and in the `logs` directory.
 
-## Hướng Dẫn Sử Dụng 🕹️
+## How to Use 🕹️
 
-### 1. Mời Bot vào Server
-- Sử dụng link mời để thêm bot vào server của bạn.
+### 1. Invite the Bot to Your Server
+- Use the invite link to add the bot to your server.
 
-### 2. Tương Tác Với Bot 💬
-- Nhắn tin trực tiếp cho bot hoặc trong các kênh được phép (được cấu hình trong `.env`).
-- Bot sẽ phản hồi các tin nhắn của bạn.
+### 2. Interact With the Bot 💬
+- Send a direct message to the bot or message within the allowed channels (configured in `.env`).
+- The bot will respond to your messages.
 
-### 3. Sử Dụng Lệnh `!search` 🔎
+### 3. Use the `!search` Command 🔎
 
--   **Cú pháp:** `!search <câu hỏi>`
--   **Ví dụ:**
-    -   `!search mèo nào đáng yêu nhất`
-    -   `!search cách làm bánh gato`
-    -   `!search thời tiết hôm nay`
--   **Mô tả:** Bot sẽ tìm kiếm thông tin trên web và trả lời dựa trên kết quả.
+-   **Syntax:** `!search <query>`
+-   **Examples:**
+    -   `!search cutest cat breeds`
+    -   `!search how to make a cake`
+    -   `!search today's weather`
+-   **Description:** The bot will search the web for information and respond based on the results.
 
-### 4. Sử Dụng Lệnh `!neko` 💬
+### 4. Use the `!neko` Command 💬
 
--   **Cú pháp:** `!neko <tin nhắn>`
--   **Ví dụ:**
-    -   `!neko chào bạn`
-    -   `!neko bạn khỏe không`
--   **Mô tả:** Bot sẽ trả lời tin nhắn của bạn.
+-   **Syntax:** `!neko <message>`
+-   **Examples:**
+    -   `!neko hello`
+    -   `!neko how are you`
+-   **Description:** The bot will reply to your message as in a normal conversation.
 
-### 5. Xem Code 💻
+### 5. View Code 💻
 
--   Bot sẽ nhận diện và tạo Gist trên GitHub cho các đoạn code được gửi.
--   Hỗ trợ các ngôn ngữ: Python, JavaScript, Java, C++, C, Go, HTML, CSS, SQL.
+-   The bot will recognize programming languages and create a GitHub Gist for sent code snippets.
+-   Supports: Python, JavaScript, Java, C++, C, Go, HTML, CSS, SQL.
 
-### 6. Dừng Bot 🛑
+### 6. Stop the Bot 🛑
 
--   Nhập `stop` vào console để dừng bot.
+-   Enter `stop` in the console to stop the bot.
 
-## Liên Hệ ✉️
+## Contact ✉️
 
-Nếu bạn có bất kỳ câu hỏi hoặc góp ý nào, vui lòng liên hệ: [**美咲👻**](https://discordapp.com/users/920620348758695957).
+For any questions or suggestions, please contact: [**美咲👻**](https://discordapp.com/users/920620348758695957).
 
-## Lưu Ý Quan Trọng ⚠️
+## Important Notes ⚠️
 
--   Bot chỉ hoạt động ở các kênh đã được cấu hình.
--   Cần cấp quyền đọc và gửi tin nhắn cho bot.
--   Có thể mất chút thời gian để bot xử lý các yêu cầu.
--   Nếu gặp lỗi, vui lòng báo để bot được cải thiện.
+-   The bot only operates in pre-configured channels.
+-   The bot requires permissions to read and send messages on Discord.
+-   The bot may take some time to process requests.
+-   If you encounter any issues, please report them so the bot can be improved.
 
-## Cảm ơn! 🙏
+## Thank You! 🙏
 
-Cảm ơn bạn đã sử dụng NekoChatBot! Hy vọng mình sẽ là người bạn hữu ích của bạn trên Discord. Mọi ý kiến đóng góp đều được hoan nghênh.
+Thank you for using NekoChatBot! I hope I can be a helpful companion on Discord. All feedback is welcome.
