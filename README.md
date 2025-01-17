@@ -103,7 +103,7 @@ To get me up and running, please follow these steps:
 
 -   **Syntax:** `!search <query>`
 -   **Examples:**
-    -   `!search cutest cat breeds`
+    -   `!search tell me about Độ Mixi`
     -   `!search how to make a cake`
     -   `!search today's weather`
 -   **Description:** The bot will search the web for information and respond based on the results.
