@@ -2,6 +2,6 @@ discord.py
 google-generativeai
 requests
 python-dotenv
-google-api-python-client
+google_api_python_client
 colorama
 tenacity
