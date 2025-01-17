@@ -354,6 +354,8 @@ async def search(ctx, *, query: str):
     thinking_message = f"## {EMOJI_LUNA_THINKING} Meow! Chờ một chút <@{ctx.message.author.id}>, Neko đang nghĩ... {EMOJI_BARD_THINK}"
     sent_message = await ctx.channel.send(content=thinking_message, reference=ctx.message)
 
+    start_time = time.time() # Meow! Khai báo start_time ở đây
+
     try:
         keywords = extract_keywords(query)  # Meow! Trích xuất từ khóa từ truy vấn
         
@@ -369,7 +371,7 @@ async def search(ctx, *, query: str):
             logger.debug(f"Meow! Prompt gửi đến Gemini:\n {prompt}") # Meow! Ghi log prompt
             response_text, error_message = await get_api_response(prompt)
             if response_text:
-                processing_time = round(time.time() - start_time, 2)
+                processing_time = round(time.time() - start_time, 2) # Meow! Sử dụng biến đã khai báo
                 footer = await create_footer(processing_time, response_text)
                 full_response = f"{response_text}\n{footer}"
                 logger.debug(f"Meow! Phản hồi API tìm kiếm (rút gọn): {response_text[:50]}...")
@@ -390,7 +392,7 @@ async def search_from_chat(message):
     thinking_message = f"## {EMOJI_LUNA_THINKING} Meow! Chờ một chút <@{message.author.id}>, Neko đang nghĩ... {EMOJI_BARD_THINK}"
     sent_message = await message.channel.send(content=thinking_message, reference=message)
     
-    start_time = time.time()
+    start_time = time.time() # Meow! Khai báo start_time ở đây
 
     try:
         query = message.content  # Meow! Dùng toàn bộ tin nhắn làm truy vấn
@@ -408,10 +410,16 @@ async def search_from_chat(message):
             logger.debug(f"Meow! Prompt gửi đến Gemini:\n {prompt}") # Meow! Ghi log prompt
             response_text, error_message = await get_api_response(prompt)
             if response_text:
-                 processing_time = round(time.time() - start_time, 2)
+                 processing_time = round(time.time() - start_time, 2) # Meow! Sử dụng biến đã khai báo
                  footer = await create_footer(processing_time, response_text)
                  full_response = f"{response_text}\n{footer}"
                  logger.debug(f"Meow! Phản hồi API tìm kiếm (rút gọn): {response_text[:50]}...")
+                 
+                 key = (message.guild.id, message.author.id) # Meow! Lấy key context
+                 if key not in CONTEXT_MEMORY:
+                    CONTEXT_MEMORY[key] = []
+                 CONTEXT_MEMORY[key].append(message.content)  # Meow! Thêm truy vấn vào context
+                 CONTEXT_MEMORY[key].append(response_text) # Meow! Thêm phản hồi vào context
                  await send_response_with_thinking(message.channel, full_response, message, sent_message)
             else:
                 await sent_message.edit(content=f"Meow! Lỗi phân tích kết quả tìm kiếm: {error_message}")
