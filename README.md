@@ -13,7 +13,7 @@ Xin chào! 👋 Mình là **NekoChatBot**, một bot Discord thông minh và h�
 
 ## Người Phát Triển 🧑‍💻
 
-Mình được phát triển bởi **美咲👻** (Discord ID: @imnhyneko).
+Mình được phát triển bởi [**美咲👻**](https://discordapp.com/users/920620348758695957) (Discord ID: @imnhyneko).
 
 ## Hướng Dẫn Cài Đặt 🛠️
 
