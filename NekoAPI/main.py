@@ -259,31 +259,8 @@ async def process_message(message, thinking_message = None):
     
     message_content = message.content
     
-    def replace_emoji_with_discord_format(message_content, guild):
-        image_parts = []
-        
-        def replace_custom_emoji(match):
-            emoji_str = match.group(0)
-            for emoji in guild.emojis:
-                if str(emoji) == emoji_str:
-                    image_parts.append({"mime_type": "image/png" if not emoji.url.lower().endswith(".gif") else "image/gif", "data": requests.get(emoji.url).content})
-                    return f"<:{emoji.name}:{emoji.id}>"
-            return emoji_str
-        
-        pattern = r"<a?:[A-Za-z0-9_]+:\d+>"
-        message_content = re.sub(pattern, replace_custom_emoji, message_content)
-        
-        def replace_text_emoji(match):
-           emoji_text = match.group(0)
-           return f" {emoji_text} " # Trả về tên emoji (ví dụ penguin)
-        message_content = re.sub(r':([a-zA-Z0-9_+-]+):', replace_text_emoji, message_content) # Lấy emoji name (ví dụ penguin) và bao quanh bằng space
-        
-        return message_content, image_parts
-    
-    message_content, image_parts = replace_emoji_with_discord_format(message_content, message.guild)
-    
     if any(keyword in message_content.lower() for keyword in SEARCH_KEYWORDS):
-        await search_from_chat(message, message_content, image_parts)
+        await search_from_chat(message, message_content)
         return
     
     thinking_message = f"## {EMOJI_LUNA_THINKING} Chờ chút <@{message.author.id}>, Neko đang nghĩ... {EMOJI_BARD_THINK}"
@@ -324,7 +301,7 @@ async def process_message(message, thinking_message = None):
              except Exception as e:
                   logger.error(f"Lỗi đọc file đính kèm {a.filename}: {e}")
     
-    response_text, error_message = await get_api_response(prompt_with_context, attachments_data + image_parts)
+    response_text, error_message = await get_api_response(prompt_with_context, attachments_data)
     
     if response_text is None:
         log_message = f"Lỗi: {error_message}"
@@ -457,29 +434,6 @@ async def chat(ctx, *, message: str):
 
     message_content = message
     
-    def replace_emoji_with_discord_format(message_content, guild):
-        image_parts = []
-        
-        def replace_custom_emoji(match):
-            emoji_str = match.group(0)
-            for emoji in guild.emojis:
-                if str(emoji) == emoji_str:
-                    image_parts.append({"mime_type": "image/png" if not emoji.url.lower().endswith(".gif") else "image/gif", "data": requests.get(emoji.url).content})
-                    return f"<:{emoji.name}:{emoji.id}>"
-            return emoji_str
-        
-        pattern = r"<a?:[A-Za-z0-9_]+:\d+>"
-        message_content = re.sub(pattern, replace_custom_emoji, message_content)
-        
-        def replace_text_emoji(match):
-           emoji_text = match.group(0)
-           return f" {emoji_text} " # Trả về tên emoji (ví dụ penguin)
-        message_content = re.sub(r':([a-zA-Z0-9_+-]+):', replace_text_emoji, message_content) # Lấy emoji name (ví dụ penguin) và bao quanh bằng space
-        
-        return message_content, image_parts
-    
-    message_content, image_parts = replace_emoji_with_discord_format(message_content, ctx.guild)
-    
     file_contents = []
     if ctx.message.attachments:
        for attachment in ctx.message.attachments:
@@ -510,7 +464,7 @@ async def chat(ctx, *, message: str):
              except Exception as e:
                   logger.error(f"Lỗi đọc file đính kèm {a.filename}: {e}")
     
-    response_text, error_message = await get_api_response(prompt_with_context, attachments_data + image_parts)
+    response_text, error_message = await get_api_response(prompt_with_context, attachments_data)
     
     if response_text is None:
         log_message = f"Có lỗi xảy ra: {error_message}"
