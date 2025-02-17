@@ -26,7 +26,7 @@ jobs:
           pip install -r requirements.txt
 
       - name: Run Discord Bot
-        run: nekoapitest.py
+        run: python nekoapitest.py
         env:
           GOOGLE_GEMINI_API_KEY: ${{ secrets.GOOGLE_GEMINI_API_KEY }}
           GOOGLE_API_KEY: ${{ secrets.GOOGLE_API_KEY }}
