@@ -79,6 +79,7 @@ To get me up and running, please follow these steps:
         GOOGLE_CSE_ID=<Your Search Engine ID>
         GITHUB_TOKEN=<Your GitHub API key>
         CUSTOM_CHANNELS=<List of channel IDs, comma-separated, for normal chat>
+        OWNER_DISCORD_ID=<Your Discord ID>
         ```
      - Provide the list of channel IDs as comma-separated values for the variable `CUSTOM_CHANNELS`. Example: `CUSTOM_CHANNELS=1234567890,0987654321`
     -   (Note: Keep this information secure).
