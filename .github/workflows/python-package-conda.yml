@@ -23,12 +23,10 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install -r requirements.txt # Nếu bạn có file requirements.txt
-          # Hoặc liệt kê các thư viện trực tiếp nếu không có requirements.txt
-          # pip install discord.py google-generativeai google-api-python-client python-dotenv colorama requests tenacity
+          pip install -r requirements.txt
 
       - name: Run Discord Bot
-        run: python your_bot_script_name.py
+        run: nekoapitest.py
         env:
           GOOGLE_GEMINI_API_KEY: ${{ secrets.GOOGLE_GEMINI_API_KEY }}
           GOOGLE_API_KEY: ${{ secrets.GOOGLE_API_KEY }}
