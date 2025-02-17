@@ -1,0 +1,39 @@
+name: Discord Bot Workflow
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+jobs:
+  run_discord_bot:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10.16'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt # Nếu bạn có file requirements.txt
+          # Hoặc liệt kê các thư viện trực tiếp nếu không có requirements.txt
+          # pip install discord.py google-generativeai google-api-python-client python-dotenv colorama requests tenacity
+
+      - name: Run Discord Bot
+        run: python your_bot_script_name.py
+        env:
+          GOOGLE_GEMINI_API_KEY: ${{ secrets.GOOGLE_GEMINI_API_KEY }}
+          GOOGLE_API_KEY: ${{ secrets.GOOGLE_API_KEY }}
+          GOOGLE_CSE_ID: ${{ secrets.GOOGLE_CSE_ID }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          DISCORD_BOT_TOKEN: ${{ secrets.DISCORD_BOT_TOKEN }}
+          CUSTOM_CHANNELS: ${{ secrets.CUSTOM_CHANNELS }}
+          OWNER_DISCORD_ID: ${{ secrets.OWNER_DISCORD_ID }}
