@@ -1,5 +1,9 @@
 # NekoChatBot 🐱💬
 
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+[![GitHub Stars](https://img.shields.io/github/stars/imnhyneko/NekoChatBot?style=social)](https://github.com/imnhyneko/NekoChatBot)
+[![GitHub Forks](https://img.shields.io/github/forks/imnhyneko/NekoChatBot?style=social)](https://github.com/imnhyneko/NekoChatBot)
+
 Hello! 👋 I'm **NekoChatBot**, a smart and helpful Discord bot designed to be your companion on Discord! I can chat, answer questions, and help you search for information on the web. Let's explore what I can offer! 😊
 
 ## Features ✨
